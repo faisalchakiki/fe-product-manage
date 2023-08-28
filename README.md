@@ -1,8 +1,61 @@
-# React + Vite
+<div align="center">
+  <br>
+  <h1><strong>PRODUCT MINE</strong></h1>
+</div>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+**Product Mine App** is a website that makes it easy to manage/view what goods are in your market.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<br>
+<img src="https://github.com/faisalchakiki/fe-product-manage/blob/master/src/assets/product-mine.png">
+<br>
+
+## Technologies
+
+-   [React.js](https://reactjs.org/)
+-   [TailwindCSS](https://tailwindcss.com/)
+-   [Redux](https://redux-toolkit.js.org/)
+-   [daisyUI](https://daisyui.com/)
+-   [Vercel](https://vercel.com/)
+
+## Run Locally
+    ### nb: Untuk sekarang masih tidak ada user access dan datanya masih static tidak menggunakan database
+
+-   Requirement:
+
+    -   Install [Node.js](https://nodejs.org)
+    -   Recommended to use [NPM](https://www.npmjs.com/)
+
+-   Clone the repo.
+
+    ```bash
+    git clone https://github.com/faisalchakiki/fe-product-manage.git
+    ```
+
+    ```bash
+    cd fe-product-manage
+    ```
+
+-   Install the dependencies.
+
+    ```bash
+    npm install
+    ```
+
+    ### Development
+
+    Run the development server and open [http://localhost:3000](http://localhost:3000)
+
+    ```bash
+    npm run start
+    ```
+
+
+    ### Production
+
+    Build the app for production.
+
+    ```bash
+    npm run build
+    ```
