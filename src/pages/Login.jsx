@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Login() {
   const navigate = useNavigate();
@@ -14,13 +15,13 @@ function Login() {
       (u) => u.email === email && u.password === password
     );
     if (user) {
-      alert("login success")
+      Swal.fire("Login Success!", "", "success");
       localStorage.setItem("isLoggedIn", true);
       setTimeout(() => {
         navigate('/')
       }, 500);
     } else {
-      alert("Login failed");
+      Swal.fire("Login Failed!", "Email or Password Wrong", "error");
     }
   };
 

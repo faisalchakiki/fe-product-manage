@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import Swal from "sweetalert2"
 
 function Register() {
   const navigate = useNavigate()
@@ -16,9 +17,9 @@ function Register() {
       existingUsers.push({ username, password, email });
       localStorage.setItem('users', JSON.stringify(existingUsers));
       navigate('/login')
-      alert('Registered successfully');
+      Swal.fire("Registered successfully!", "", "success");
     } else {
-      alert('Invalid input');
+      Swal.fire("Login Failed!", "Invalid Input", "error");
     }
   };
   
