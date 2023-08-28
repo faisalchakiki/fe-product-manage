@@ -17,11 +17,12 @@ function Homepage() {
 
   const products = useSelector((state) => state.products);
   const [settingProducts, setSettingProducts] = useState(null);
-  const [page, setPage] = useState(products?.data.page);
+  const [page, setPage] = useState(products?.data?.page);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     getDataProduct(page);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const getDataProduct = (pageNumber) => {
@@ -163,7 +164,7 @@ function Homepage() {
           </thead>
           {products && (
             <tbody>
-              {products?.data.results?.map((data, index) => (
+              {products?.data?.results?.map((data, index) => (
                 <tr key={index} className="hover:bg-slate-200 text-center">
                   <td className="w-14 h-14 rounded py-2 overflow-hidden bg-white font-medium text-gray-900">
                     <img

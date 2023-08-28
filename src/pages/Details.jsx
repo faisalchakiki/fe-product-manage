@@ -19,6 +19,7 @@ function Details() {
 
   useEffect(() => {
     getDataDetail();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const stateProducts = useSelector((state) => state.products);
