@@ -4,7 +4,7 @@ function Select({ title, selectedValue, value, options = ["Category1","Category2
       <label className="label">
         <span className="label-text text-sm md:text-md font-semibold">{title}</span>
       </label>
-      <select value={value} onChange={(e) => selectedValue(e.target.value)} className="select select-bordered border-none bg-slate-100 capitalize text-gray-600">
+      <select defaultValue={value} onChange={(e) => selectedValue(e.target.value)} className="select select-bordered border-none bg-slate-100 capitalize text-gray-600">
         <option disabled selected>
           Select One
         </option>

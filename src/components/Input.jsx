@@ -11,7 +11,7 @@ function Input({ title, type = 'text', className, onChange, value = "" }) {
         required
         defaultValue={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`input input-disabled bg-slate-100 placeholder:text-gray-600 w-full ${className}`}
+        className={`input bg-slate-100 placeholder:text-gray-600 w-full ${className}`}
       />}
       { type !== 'number' && <input
         type={type}
@@ -19,7 +19,7 @@ function Input({ title, type = 'text', className, onChange, value = "" }) {
         onChange={(e) => onChange(e.target.value)}
         required
         defaultValue={value}
-        className={`input input-disabled bg-slate-100 placeholder:text-gray-600 w-full ${className}`}
+        className={`input bg-slate-100 placeholder:text-gray-600 w-full ${className}`}
       />}
     </div>
   );

@@ -10,7 +10,8 @@ function Textarea({ title, value, type = 'text', className, onChange }) {
         placeholder="Input here .."
         onChange={(e) => onChange(e.target.value)}
         required
-        className={`input input-disabled pt-2 leading-2 bg-slate-100 placeholder:text-gray-600 w-full ${className}`}
+        rows="10"
+        className={`input pt-2 h-28 relative leading-6 resize-none hover:rezise bg-slate-100 placeholder:text-gray-600 w-full ${className}`}
       />
     </div>
   );

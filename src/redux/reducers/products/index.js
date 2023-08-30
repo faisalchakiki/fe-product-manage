@@ -40,6 +40,7 @@ const apiSlice = createSlice({
     builder
       .addCase(fetchListProducts.pending, (state) => {
         state.isLoading = true;
+        state.data = null
       })
       .addCase(fetchListProducts.fulfilled, (state, action) => {
         state.isLoading = false;

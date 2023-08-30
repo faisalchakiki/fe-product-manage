@@ -16,15 +16,15 @@ function Details() {
 
   const { state } = useLocation();
   const id = state.data.id;
+  console.log(id)
 
   useEffect(() => {
     getDataDetail();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const stateProducts = useSelector((state) => state.products);
   const product = useSelector((state) => state.products.detail?.results);
-  console.log(stateProducts.isLoading);
 
   const [urlImage, setUrlImage] = useState(product?.image);
   const [description, setDescription] = useState(product?.description);
@@ -45,7 +45,8 @@ function Details() {
     }
   };
 
-  const editProductAction = async () => {
+  const editProductAction = (e) => {
+    e.preventDefault();
     const dataUpdate = {
       description: description,
       categoryName: categoryName,
@@ -59,14 +60,37 @@ function Details() {
       price: parseInt(price),
     };
     try {
-      await dispatch(editData({ id, payload: dataUpdate }))
-      Swal.fire("Edit Product Success!", "", "success");
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      dispatch(editData({ id, payload: dataUpdate }));
+      window.editModal.close();
+      if (stateProducts?.detail !== null) {
+        Swal.fire("Edit Product Success!", "", "success").then((result) => {
+          if (result.isConfirmed) {
+            setTimeout(() => {
+              navigate("/");
+            }, 500);
+          }
+        });
+      }
     } catch (error) {
       Swal.fire("Edit Product Failed!", "", "error");
     }
+  };
+
+  const currencyPrice = (price) => {
+    const result = price.toLocaleString("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    });
+    return result;
+  };
+
+  const buttonStock = () => {
+    Swal.fire({
+      title: 'Stock',
+      text: `${product?.name} remaining UNLIMITED`,
+      icon: 'info',
+      confirmButtonText: 'CLOSE'
+    });
   };
 
   return (
@@ -90,7 +114,9 @@ function Details() {
               <p className="leading-relaxed mb-4">{product?.description}</p>
               <div className="flex border-t border-gray-200 py-2">
                 <span className="text-gray-500">Category</span>
-                <span className="ml-auto text-gray-900">{product?.categoryName}</span>
+                <span className="ml-auto text-gray-900 capitalize">
+                  {product?.categoryName}
+                </span>
               </div>
               <div className="flex border-t border-gray-200 py-2">
                 <span className="text-gray-500">SKU</span>
@@ -112,11 +138,11 @@ function Details() {
                 <span className="text-gray-500">Height</span>
                 <span className="ml-auto text-gray-900">{product?.height}</span>
               </div>
-              <div className="flex mt-2">
-                <span className="title-font font-medium text-2xl text-gray-900">
-                  ${product?.price}
+              <div className="flex items-center mt-2">
+                <span className="title-font font-medium text-lg md:text-2xl text-gray-900">
+                  {currencyPrice(product?.price)}
                 </span>
-                <button className="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded">
+                <button onClick={() => buttonStock()} className="flex ml-auto text-white bg-orange-500 border-0 py-2 px-4 md:px-6 focus:outline-none hover:bg-orange-600 rounded">
                   Check Stock
                 </button>
                 <button
@@ -140,71 +166,74 @@ function Details() {
         className="modal modal-bottom md:flex md:justify-center md:items-center"
       >
         <div className="modal-box md:rounded-b-[1rem] w-full md:w-10/12 lg:w-6/12 h-[50vh] relative md:h-auto scrollbar">
-          <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10">
-              ✕
-            </button>
-          </form>
-          {/* <form method="dialog" className="flex justify-start items-start flex-wrap md:flex-wrap-reverse"> */}
-          <form
-            method="dialog"
-            className="flex justify-start items-start flex-wrap"
+          <button
+            onClick={() => window.editModal.close()}
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10"
           >
-            <Input
-              value={nameProduct}
-              onChange={setNameProduct}
-              title="Name :"
-            />
-            <Select
-              selectedValue={setCategoryName}
-              options={options}
-              value={categoryName}
-              title="Choose Category"
-            />
-            <Input value={sku} onChange={setSku} title="SKU :" />
-            <Input
-              value={weight}
-              onChange={setWeight}
-              title="Weight :"
-              type="number"
-            />
-            <Input
-              value={width}
-              onChange={setWidth}
-              title="Widht :"
-              type="number"
-            />
-            <Input
-              value={length}
-              onChange={setLength}
-              title="Length :"
-              type="number"
-            />
-            <Input
-              value={height}
-              onChange={setHeight}
-              title="Height :"
-              type="number"
-            />
-            <Input
-              value={price}
-              onChange={setPrice}
-              title="Price :"
-              type="number"
-            />
-            <Textarea
-              value={description}
-              onChange={setDescription}
-              title="Description :"
-              type="text"
-            />
-            <Input
-              value={urlImage}
-              onChange={setUrlImage}
-              title="URL Image :"
-              type="url"
-            />
-            {/* <div className="mx-auto py-3 w-full flex flex-col sm:flex-row gap-5 items-center justify-center">
+            ✕
+          </button>
+          {/* <form method="dialog" className="flex justify-start items-start flex-wrap md:flex-wrap-reverse"> */}
+          {product && (
+            <form
+              onSubmit={editProductAction}
+              method="dialog"
+              className="flex justify-start items-start flex-wrap"
+            >
+              <Input
+                value={product?.name}
+                onChange={setNameProduct}
+                title="Name :"
+              />
+              <Select
+                selectedValue={setCategoryName}
+                options={options}
+                value={product?.categoryName}
+                title="Choose Category"
+              />
+              <Input value={sku} onChange={setSku} title="SKU :" />
+              <Input
+                value={product?.weight}
+                onChange={setWeight}
+                title="Weight :"
+                type="number"
+              />
+              <Input
+                value={product?.width}
+                onChange={setWidth}
+                title="Widht :"
+                type="number"
+              />
+              <Input
+                value={product?.length}
+                onChange={setLength}
+                title="Length :"
+                type="number"
+              />
+              <Input
+                value={product?.height}
+                onChange={setHeight}
+                title="Height :"
+                type="number"
+              />
+              <Input
+                value={product?.price}
+                onChange={setPrice}
+                title="Price :"
+                type="number"
+              />
+              <Textarea
+                value={product?.description}
+                onChange={setDescription}
+                title="Description :"
+                type="text"
+              />
+              <Input
+                value={product?.image}
+                onChange={setUrlImage}
+                title="URL Image :"
+                type="url"
+              />
+              {/* <div className="mx-auto py-3 w-full flex flex-col sm:flex-row gap-5 items-center justify-center">
               <div className="rounded-full overflow-hidden bg-slate-500 w-[150px] h-[150px]">
                 <img className="w-full h-[100%] object-cover object-center" alt="img-selected" src={selectedFile !== null ? selectedFile : "https://dummyimage.com/400x400"}/>
               </div>
@@ -215,15 +244,13 @@ function Details() {
                 accept="image/*"
               />
             </div> */}
-            <div className="mx-auto w-full">
-              <button
-                onClick={editProductAction}
-                className="flex w-fit text-white bg-orange-500 border-0 py-3 px-6 mt-8 ml-auto hover:bg-orange-600 rounded"
-              >
-                Update Data
-              </button>
-            </div>
-          </form>
+              <div className="mx-auto w-full">
+                <button className="flex w-fit text-white bg-orange-500 border-0 py-3 px-6 mt-8 ml-auto hover:bg-orange-600 rounded">
+                  Update Data
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </dialog>
     </section>
